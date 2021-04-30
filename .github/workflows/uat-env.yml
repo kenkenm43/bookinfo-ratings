@@ -1,8 +1,8 @@
-name: dev-env
+name: uat-env
 on:
   push:
     branches:
-      - dev
+      - master
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -19,7 +19,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/kenkenm43/bookinfo-ratings:dev
+          tags: ghcr.io/kenkenm43/bookinfo-ratings:uat
   deploy:
     needs: build
     runs-on: ubuntu-20.04
@@ -46,9 +46,3 @@ jobs:
                 "COMMIT_SHA": "${{ github.sha }}"
               }
             }
-  acceptance-test:
-    needs: deploy
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Acceptance Test
-        run : curl http://bookinfo.dev.opsta.net/student[X]/ratings/health | grep "Ratings is working"
